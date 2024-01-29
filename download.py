@@ -5,14 +5,14 @@ from PIL import Image
 import pickle
 from huggingface_hub import from_pretrained_fastai, _save_pretrained_fastai
 from contextlib import contextmanager
+from pathlib import Path
 import pathlib
-
 
 @contextmanager
 def set_posix_windows():
     posix_backup = pathlib.PosixPath
     try:
-        pathlib.PosixPath = pathlib.WindowsPath
+        pathlib.PosixPath = Path.home()
         yield
     finally:
         pathlib.PosixPath = posix_backup
@@ -20,14 +20,6 @@ def set_posix_windows():
 with set_posix_windows():
     potato_cat = ('Early_Blight', 'Healthy', 'Late_Blight')
     potato = from_pretrained_fastai("Luna-Skywalker/potato_dtect")
-
-    def classify_image(categories,model,img):
-        pred_class, pred_idx, probs = model.predict(img)
-        return dict(zip(categories,map(float,probs)))
-    
-    img = 'LateBlight03.jpg'
-    prediction = classify_image(potato_cat,potato,img)
-    print(prediction)
     _save_pretrained_fastai(potato, "ml_models\potato_dtect")
 
     corn = from_pretrained_fastai("Luna-Skywalker/corn_dtect")
