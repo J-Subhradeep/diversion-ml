@@ -23,7 +23,7 @@ def set_posix_windows():
 
 
 with set_posix_windows():
-    model_paths = ["ml_models\corn_dtect\model.pkl", "ml_models\wheat_dtect\model.pkl", "ml_models\potato_dtect\model.pkl","ml_models\Rice_dtect\model.pkl"]
+    model_paths = ["./ml_models/corn_dtect/model.pkl", "./ml_models/wheat_dtect/model.pkl", "./ml_models/potato_dtect/model.pkl","./ml_models/Rice_dtect/model.pkl"]
     models = [load_learner(model_path) for model_path in model_paths]
 
     corn_cat = ('Common_Rust', 'Gray_Leaf_Spot', 'Healthy', 'Northern_Leaf_Blight')
