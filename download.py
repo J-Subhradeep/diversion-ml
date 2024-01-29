@@ -10,7 +10,7 @@ import pathlib
 
 potato_cat = ('Early_Blight', 'Healthy', 'Late_Blight')
 potato = from_pretrained_fastai("Luna-Skywalker/potato_dtect")
-_save_pretrained_fastai(potato, "ml_models\potato_dtect")
+_save_pretrained_fastai(potato, "./ml_models/potato_dtect")
 
 corn = from_pretrained_fastai("Luna-Skywalker/corn_dtect")
 wheat = from_pretrained_fastai("Luna-Skywalker/wheat_dtect")
