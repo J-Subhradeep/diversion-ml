@@ -16,14 +16,22 @@ import pathlib
 
 
 
-model_paths = ["./ml_models/corn_dtect/model.pkl", "./ml_models/wheat_dtect/model.pkl", "./ml_models/potato_dtect/model.pkl","./ml_models/Rice_dtect/model.pkl"]
+model_paths = ["./ml_models/corn_dtect/model.pkl", "./ml_models/wheat_dtect/model.pkl",
+                "./ml_models/potato_dtect/model.pkl","./ml_models/Rice_dtect/model.pkl",
+                "./ml_models/apple_dtect/model.pkl","./ml_models/tomato_dtect/model.pkl",
+                "./ml_models/tea_dtect/model.pkl"]
 models = [load_learner(model_path) for model_path in model_paths]
 
 corn_cat = ('Common_Rust', 'Gray_Leaf_Spot', 'Healthy', 'Northern_Leaf_Blight')
 potato_cat = ('Early_Blight', 'Healthy', 'Late_Blight')
 rice_cat =('Brown_Spot', 'Neck_Blast', 'Leaf_Blast', 'Healthy')
 wheat_cat = ('Healthy', 'Yellow_Rust', 'Brown_Rust')
-cat = [corn_cat,wheat_cat,potato_cat,rice_cat]
+apple_cat = ('black_rot','healthy','rust','scab')
+tomato_cat = ('bacterial_spot', 'early_blight','healthy','late_blight','leaf_mold','mosaic_virus','septoria_leaf_spot',
+              'spider_mites_(two_spotted_spider_mite)','target_spot','yellow_leaf_curl_virus')
+tea_cat = ('algal_leaf','anthacnose','bird_eye_spot','brown_blight','healthy','read_leaf_spot')
+
+cat = [corn_cat,wheat_cat,potato_cat,rice_cat,apple_cat,tomato_cat,tea_cat]
 
 # prediction function
 def classify_image(categories,model,img):
@@ -85,6 +93,21 @@ async def rice(file: UploadFile = File(...)):
     contents = await file.read()
     return predict_image(contents, rice_cat, models[3])
 
+@app.post("/apple")
+async def apple(file: UploadFile = File(...)):
+    contents = await file.read()
+    return predict_image(contents, apple_cat, models[4])
+
+@app.post("/tomato")
+async def tomato(file: UploadFile = File(...)):
+    contents = await file.read()
+    return predict_image(contents, tomato_cat, models[5])
+
+@app.post("/tea")
+async def tea(file: UploadFile = File(...)):
+    contents = await file.read()
+    return predict_image(contents, tea_cat, models[6])
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8081)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
